@@ -31,7 +31,8 @@ function judgeShow(){
 	for(var i = 0; i < imgList.length; i++){
 		var imgItem = imgList[i];
 		if(getOffsetTop(imgItem) - scrollTop <= clientHeight){
-			imgItem.setAttribute('src', imgItem.getAttribute('data-src'));
+			imgItem.setAttribute('src', imgItem.getAttribute('data-src') + "?" + new Date().getTime());
+			imgItem.removeAttribute('data-src');
 			if(imgItem.getAttribute('class')){
 				imgItem.setAttribute('class',imgItem.getAttribute('class').replace('lazyload',''));
 			}else{
