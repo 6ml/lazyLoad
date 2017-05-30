@@ -4,7 +4,8 @@
   "description": "lazyload imgages",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "webpack --progress --profile --colors --config webpack.config.js"
   },
   "repository": {
     "type": "git",
@@ -18,5 +19,9 @@
   "bugs": {
     "url": "https://github.com/6ml/lazyLoad/issues"
   },
-  "homepage": "https://github.com/6ml/lazyLoad#readme"
+  "homepage": "https://github.com/6ml/lazyLoad#readme",
+  "devDependencies": {
+    "clean-webpack-plugin": "^0.1.14",
+    "webpack": "^1.13.3"
+  }
 }
