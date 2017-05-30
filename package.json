@@ -1,0 +1,22 @@
+{
+  "name": "lazyload",
+  "version": "1.0.0",
+  "description": "lazyload imgages",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/6ml/lazyLoad.git"
+  },
+  "keywords": [
+    "lazyload"
+  ],
+  "author": "lupath",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/6ml/lazyLoad/issues"
+  },
+  "homepage": "https://github.com/6ml/lazyLoad#readme"
+}
