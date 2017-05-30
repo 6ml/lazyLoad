@@ -27,7 +27,7 @@ function judgeShow(){
 	'use strict';
 	var scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop;
 	var clientHeight = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
-	var imgList = getElementsByClass('lazyload');
+	var imgList = getImgElementsByClass('lazyload');
 	for(var i = 0; i < imgList.length; i++){
 		var imgItem = imgList[i];
 		if(getOffsetTop(imgItem) - scrollTop <= clientHeight){
@@ -42,9 +42,11 @@ function judgeShow(){
 	}
 }
 
-function getElementsByClass(className){
+//根据类名查找图片元素
+function getImgElementsByClass(className){
+	'use strict';
 	if(!document.getElementsByClassName){
-		var elements = document.getElementsByTagName('*');
+		var elements = document.getElementsByTagName('img');
 		var result = [];
 		for(var i = 0; i < elements.length; i++){
 			var child = elements[i];
