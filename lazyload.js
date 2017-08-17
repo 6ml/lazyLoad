@@ -10,57 +10,82 @@ window.onload = function(){
 	}
 };
 
-//获取元素offsetTop
+/**
+ * 获取元素 offsetTop 值
+ * @param  {[Object]} obj [要获取 offsetTop 值的元素]
+ * @return {[Number]}     [元素 offsetTop 值]
+ */
 function getOffsetTop(obj){
 	'use strict';
+
 	var offsetTop = obj.offsetTop;
 	var parent = obj.offsetParent;
+
 	while(parent){
 		offsetTop += parent.offsetTop;
 		parent = parent.offsetParent;
 	}
+
 	return offsetTop;
 }
 
-//判断元素是否出现在可视区域
+/**
+ * 判断元素是否出现是视野范围内
+ */
 function judgeShow(){
 	'use strict';
+
 	var scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop;
 	var clientHeight = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
-	var imgList = getImgElementsByClass('lazyload');
-	for(var i = 0; i < imgList.length; i++){
-		var imgItem = imgList[i];
+
+	var imgList = getElementsByClass('lazyload', 'img');
+	imgList.forEach(function (imgItem) {
 		if(getOffsetTop(imgItem) - scrollTop <= clientHeight){
-			imgItem.setAttribute('src', imgItem.getAttribute('data-src') + "?" + new Date().getTime());
-			imgItem.removeAttribute('data-src');
-			if(imgItem.getAttribute('class')){
-				imgItem.setAttribute('class',imgItem.getAttribute('class').replace('lazyload',''));
-			}else{
-				imgItem.setAttribute('className',imgItem.getAttribute('className').replace('lazyload',''));
-			}
+			setSrc(imgItem);
 		}
+	})
+}
+
+/**
+ * 为图片元素设置 src 并移出 lazyload 类名
+ * @param {[Object]} obj [需要设置 src 的图片元素]
+ */
+function setSrc (obj) {
+	'use strict';
+
+	obj.setAttribute('src', obj.getAttribute('data-src') + "?" + new Date().getTime());
+	obj.removeAttribute('data-src');
+
+	if(obj.getAttribute('class')){
+		obj.setAttribute('class',obj.getAttribute('class').replace('lazyload',''));
+	}else{
+		obj.setAttribute('className',obj.getAttribute('className').replace('lazyload',''));
 	}
 }
 
-//根据类名查找图片元素
-function getImgElementsByClass(className){
+/**
+ * 根据类名查找图片元素
+ * @param  {[String]} 	className 	[要查找元素的类名]
+ * @param  {[String]} 	tagName     [要查找元素的标签名]
+ * @return {[Array]}           	  	[查找到的元素集合]
+ */
+function getElementsByClass(className, tagName){
 	'use strict';
+
 	if(!document.getElementsByClassName){
-		var elements = document.getElementsByTagName('img');
+
+		var elements = document.getElementsByTagName(tagName);
 		var result = [];
-		for(var i = 0; i < elements.length; i++){
-			var child = elements[i];
-			var classNames = child.className.split(' ');
-			for(var j = 0; j < classNames.length; j++){
-				if(className === classNames[j]){
-					result.push(child);
-					break;
-				}
+
+		Array.prototype.forEach.call(elements, function (elItem) {
+			if(elItem.className.indexOf(className) !== -1){
+				result.push(elItem);
 			}
-		}
+		})
+
 		return result;
 	}
 	else{
-		return document.getElementsByClassName(className);
+		return Array.prototype.slice.call(document.getElementsByClassName(className), 0);
 	}
 }
