@@ -48,7 +48,7 @@ function judgeShow() {
     var clientHeight = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
 
     var imgList = getElementsByClass('lazyload', 'img');
-    imgList.forEach(function (imgItem) {
+    forEach(imgList, function (imgItem) {
 
         // document.documentElement.clientTop 在 IE 6/7 中值为 2 ; 在其他浏览器中值为 0
         if(getOffsetTop1(imgItem) - document.documentElement.clientTop - scrollTop <= clientHeight) {
@@ -89,7 +89,9 @@ function getElementsByClass(className, tagName) {
         var elements = document.getElementsByTagName(tagName);
         var result = [];
 
-        Array.prototype.forEach.call(elements, function(elItem) {
+        var elArray = [].slice.call(elements, 0);
+
+        forEach(elArray, function(elItem) {
             if(elItem.className.indexOf(className) !== -1){
                 result.push(elItem);
             }
@@ -98,7 +100,7 @@ function getElementsByClass(className, tagName) {
         return result;
     }
     else{
-        return Array.prototype.slice.call(document.getElementsByClassName(className), 0);
+        return [].slice.call(document.getElementsByClassName(className), 0);
     }
 }
 
@@ -140,4 +142,22 @@ function throttle(fn, delay, atLeast) {
             timeout = setTimeout(fn, delay);
         }
     };
+}
+
+/**
+ * forEach polyfill
+ * @param  {[Array]}   arr [执行 forEach 的数组]
+ * @param  {Function}  fn  [forEach 每次执行的函数]
+ */
+function forEach(arr, fn) {
+
+    if(typeof [].forEach === 'function'){
+        arr.forEach(fn);
+    }
+
+    else {
+        for(var i = 0; i < arr.length; i++) {
+            fn(arr[i]);
+        }
+    }
 }
